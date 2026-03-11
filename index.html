@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AETHER — Weather</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Animated Background -->
+  <div class="bg-canvas" id="bgCanvas">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="grain"></div>
+  </div>
+
+  <!-- Particles -->
+  <canvas id="particleCanvas"></canvas>
+
+  <!-- Main App -->
+  <div class="app" id="app">
+
+    <!-- Header -->
+    <header class="header">
+      <div class="logo">AETHER</div>
+      <div class="header-right">
+        <button class="unit-toggle" id="unitToggle">°C / °F</button>
+        <div class="time-display" id="timeDisplay">--:--</div>
+      </div>
+    </header>
+
+    <!-- Search -->
+    <div class="search-wrap">
+      <div class="search-box">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+        <input type="text" id="searchInput" placeholder="Search city…" autocomplete="off" />
+        <button id="locBtn" title="Use my location">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="12" cy="12" r="3"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3"/>
+            <path d="M12 5a7 7 0 0 1 7 7 7 7 0 0 1-7 7 7 7 0 0 1-7-7 7 7 0 0 1 7-7"/>
+          </svg>
+        </button>
+      </div>
+      <ul class="suggestions" id="suggestions"></ul>
+    </div>
+
+    <!-- Loading -->
+    <div class="loader" id="loader">
+      <div class="loader-ring"></div>
+      <span>Reading the skies…</span>
+    </div>
+
+    <!-- Error -->
+    <div class="error-msg" id="errorMsg"></div>
+
+    <!-- Weather Content -->
+    <div class="weather-content" id="weatherContent" style="display:none">
+
+      <!-- Hero -->
+      <div class="hero">
+        <div class="location-block">
+          <div class="city-name" id="cityName">—</div>
+          <div class="country-date" id="countryDate">—</div>
+        </div>
+        <div class="temp-block">
+          <div class="weather-icon-wrap" id="iconWrap">
+            <canvas id="weatherIconCanvas" width="120" height="120"></canvas>
+          </div>
+          <div class="temp-main" id="tempMain">—°</div>
+          <div class="feels-like" id="feelsLike">Feels like —°</div>
+          <div class="condition-label" id="conditionLabel">—</div>
+        </div>
+      </div>
+
+      <!-- Stats Row -->
+      <div class="stats-row">
+        <div class="stat-card" data-delay="0">
+          <div class="stat-icon">💧</div>
+          <div class="stat-value" id="humidity">—%</div>
+          <div class="stat-label">Humidity</div>
+        </div>
+        <div class="stat-card" data-delay="1">
+          <div class="stat-icon">🌬</div>
+          <div class="stat-value" id="wind">— km/h</div>
+          <div class="stat-label">Wind</div>
+        </div>
+        <div class="stat-card" data-delay="2">
+          <div class="stat-icon">🌡</div>
+          <div class="stat-value" id="pressure">— hPa</div>
+          <div class="stat-label">Pressure</div>
+        </div>
+        <div class="stat-card" data-delay="3">
+          <div class="stat-icon">👁</div>
+          <div class="stat-value" id="visibility">— km</div>
+          <div class="stat-label">Visibility</div>
+        </div>
+      </div>
+
+      <!-- Sun Times -->
+      <div class="sun-bar">
+        <div class="sun-item">
+          <span class="sun-icon">🌅</span>
+          <span class="sun-label">Sunrise</span>
+          <span class="sun-val" id="sunrise">—</span>
+        </div>
+        <div class="sun-track">
+          <div class="sun-progress" id="sunProgress"></div>
+          <div class="sun-dot" id="sunDot"></div>
+        </div>
+        <div class="sun-item">
+          <span class="sun-icon">🌇</span>
+          <span class="sun-label">Sunset</span>
+          <span class="sun-val" id="sunset">—</span>
+        </div>
+      </div>
+
+      <!-- Forecast -->
+      <div class="forecast-section">
+        <div class="section-title">5-Day Forecast</div>
+        <div class="forecast-row" id="forecastRow"></div>
+      </div>
+
+      <!-- Hourly Chart -->
+      <div class="hourly-section">
+        <div class="section-title">Hourly Temperature</div>
+        <div class="chart-wrap">
+          <canvas id="tempChart" height="120"></canvas>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="api-note">
+      Powered by Open-Meteo · No API key required
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
